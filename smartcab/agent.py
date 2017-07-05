@@ -24,7 +24,7 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Set any additional class parameters as needed
-
+        self.step=0 #simulation step
 
     def reset(self, destination=None, testing=False):
         """ The reset function is called at the beginning of each trial.
@@ -33,7 +33,7 @@ class LearningAgent(Agent):
 
         # Select the destination as the new location to route to
         self.planner.route_to(destination)
-       
+        self.step = self.step + 1
         
         ########### 
         ## TO DO ##
@@ -41,9 +41,10 @@ class LearningAgent(Agent):
         # Update epsilon using a decay function of your choice
         # Update additional class parameters as needed
         if testing:
-            self.epsilon, self.alpha = 0,0
+            self.epsilon, self.alpha, self.step = 0,0,0
         else:
-             self.epsilon =  max(0, self.epsilon - 0.05) # We decrease epsilon towards zero
+             #self.epsilon =  1./(self.step**2) # We decrease epsilon towards zero
+             self.epsilon = 0.99**self.step
         # If 'testing' is True, set epsilon and alpha to 0
 
         return None
@@ -68,10 +69,9 @@ class LearningAgent(Agent):
         # With the hand-engineered features, this learning process gets entirely negated.
         
         # Set 'state' as a tuple of relevant data for the agent  
-        w=[]
-        w.append(waypoint)
-        state = tuple(w + inputs.values())
-
+        state = (waypoint,inputs['light'],inputs['oncoming'],inputs['left'])
+        #Relevant features for our agent, following the US Right-of-way, are the trafic light,
+        #oncoming trafic, and the vehicle coming from the left, and the direction we want to drive in
         return state
 
 
@@ -194,7 +194,7 @@ def run():
     #   display      - set to False to disable the GUI if PyGame is enabled
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
-    sim = Simulator(env, update_delay=0.001, log_metrics=True)
+    sim = Simulator(env, update_delay=0.001, log_metrics=True, optimized=True)
     
     ##############
     # Run the simulator
