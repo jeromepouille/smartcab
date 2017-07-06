@@ -16963,6 +16963,11 @@ If the light is green, and I need to move Left :
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Optional-Question-9">Optional Question 9<a class="anchor-link" href="#Optional-Question-9">&#182;</a></h3><p><em>There are two characteristics about the project that invalidate the use of future rewards in the Q-Learning algorithm. One characteristic has to do with the </em>Smartcab<em> itself, and the other has to do with the environment. Can you figure out what they are and why future rewards won't work for this project?</em></p>
+<p>I am guessing that future rewards will not work for the 2 following reasons:</p>
+<ul>
+<li>In the real world, causing an accident will stop the smartcab : Such consequences could be considered as final/absorbing states, which is not what we want (the final state is reached when we are at the destination)</li>
+<li>In our simulation, starting from a given state and taking an action is not enough to determine the next state, which depends on the trafic and the waypoint, which are calculated everytime we move on the grid.</li>
+</ul>
 
 </div>
 </div>
